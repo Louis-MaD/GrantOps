@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { StatusBadge, RiskBadge } from "@/components/status-badge";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import {
   FileText,
   Clock,
@@ -35,11 +35,6 @@ async function getDashboardData() {
     _count: { status: true },
   });
 
-  const riskCounts = await prisma.application.groupBy({
-    by: ["riskLevel"],
-    _count: { riskLevel: true },
-  });
-
   const pendingQueue = await prisma.application.count({
     where: { status: { in: ["New", "In Review"] } },
   });
@@ -48,7 +43,7 @@ async function getDashboardData() {
     where: { riskLevel: "High" },
   });
 
-  return { applications, totalCount, statusCounts, riskCounts, pendingQueue, highRisk };
+  return { applications, totalCount, statusCounts, pendingQueue, highRisk };
 }
 
 const statusOrder = ["New", "In Review", "Needs Info", "Approved", "Rejected"];
@@ -61,7 +56,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
-  const { applications, totalCount, statusCounts, riskCounts, pendingQueue, highRisk } = await getDashboardData();
+  const { applications, totalCount, statusCounts, pendingQueue, highRisk } = await getDashboardData();
 
   const statusMap = Object.fromEntries(statusCounts.map((s) => [s.status, s._count.status]));
   const approved = statusMap["Approved"] ?? 0;

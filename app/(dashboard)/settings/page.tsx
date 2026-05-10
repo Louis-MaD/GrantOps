@@ -8,10 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import {
-  Shield, Users, Zap, Bell, FileCheck, AlertTriangle, Lock, ChevronRight, Settings2
+  Shield, Users, Zap, Bell, FileCheck, AlertTriangle, Settings2
 } from "lucide-react";
 
 interface ToggleSetting {

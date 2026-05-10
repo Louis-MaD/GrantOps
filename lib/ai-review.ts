@@ -87,9 +87,8 @@ function extractFields(text: string, applicantName: string, orgName: string, gra
   };
 }
 
-function generateSummary(applicantName: string, orgName: string, grantProgram: string, amount: number, text: string, eligScore: number, riskScore: number, missingDocs: string[]): string {
+function generateSummary(applicantName: string, orgName: string, grantProgram: string, amount: number, eligScore: number, riskScore: number, missingDocs: string[]): string {
   const amountStr = `$${amount.toLocaleString()}`;
-  const hasText = text && text.trim().length > 50;
 
   const openings = [
     `${orgName}, led by ${applicantName}, has submitted an application for ${amountStr} under the ${grantProgram} program.`,
@@ -176,7 +175,7 @@ export function runMockAIReview(
     recommendedAction = "Assign to Reviewer";
   }
 
-  const summary = generateSummary(applicantName, orgName, grantProgram, requestedAmount, rawText, eligibilityScore, riskScore, missingDocs);
+  const summary = generateSummary(applicantName, orgName, grantProgram, requestedAmount, eligibilityScore, riskScore, missingDocs);
 
   return {
     summary,

@@ -64,14 +64,6 @@ async function main() {
 
   console.log(`✅ Created ${reviewers.length} reviewers`);
 
-  const grantPrograms = [
-    "Community Health Innovation Fund",
-    "Climate Resilience Microgrant",
-    "STEM Access Fellowship",
-    "Small Business Recovery Grant",
-    "Rural Connectivity Initiative",
-  ];
-
   const applicationsData = [
     {
       applicantName: "Dr. Amara Osei",
@@ -415,7 +407,6 @@ async function main() {
   console.log(`✅ Created ${applications.length} applications`);
 
   // Create audit logs
-  const actors = ["System", "Sarah Chen", "Marcus Williams", "Dr. Priya Nair", "James Okafor", "AI Engine"];
   const now = Date.now();
 
   const auditData = [

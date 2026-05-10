@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Header } from "@/components/layout/header";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { formatDateTime } from "@/lib/utils";
 import {
   FileText, Zap, UserCheck, ChevronRight, CheckCircle, XCircle,
@@ -59,8 +58,7 @@ export default function AuditLogsPage() {
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchLogs = async () => {
-    setLoading(true);
+  const fetchLogs = useCallback(async () => {
     try {
       const res = await fetch("/api/audit-logs?limit=100");
       const data = await res.json();
@@ -68,9 +66,11 @@ export default function AuditLogsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(() => { fetchLogs(); }, []);
+  useEffect(() => {
+    void fetchLogs();
+  }, [fetchLogs]);
 
   const actionCounts = logs.reduce<Record<string, number>>((acc, log) => {
     acc[log.action] = (acc[log.action] ?? 0) + 1;
@@ -83,7 +83,15 @@ export default function AuditLogsPage() {
         title="Audit Logs"
         description="Complete system event timeline and activity trail"
         action={
-          <Button variant="outline" size="sm" onClick={fetchLogs} className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setLoading(true);
+              void fetchLogs();
+            }}
+            className="gap-2"
+          >
             <RefreshCw className="h-3.5 w-3.5" />
             Refresh
           </Button>

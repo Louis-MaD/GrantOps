@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Header } from "@/components/layout/header";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge, RiskBadge } from "@/components/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { formatCurrency, formatDate } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { ArrowRight, Loader2, RefreshCw, UserCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -46,8 +45,7 @@ export default function QueuePage() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<string | null>(null);
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = useCallback(async () => {
     try {
       const [apps, revs] = await Promise.all([
         fetch("/api/applications").then((r) => r.json()),
@@ -58,9 +56,11 @@ export default function QueuePage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => {
+    void fetchData();
+  }, [fetchData]);
 
   const updateStatus = async (appId: string, newStatus: string) => {
     setUpdating(appId);
@@ -109,7 +109,15 @@ export default function QueuePage() {
         title="Reviewer Queue"
         description="Manage and triage grant applications across review stages"
         action={
-          <Button variant="outline" size="sm" onClick={fetchData} className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setLoading(true);
+              void fetchData();
+            }}
+            className="gap-2"
+          >
             <RefreshCw className="h-3.5 w-3.5" />
             Refresh
           </Button>

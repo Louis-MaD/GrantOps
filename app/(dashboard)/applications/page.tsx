@@ -34,6 +34,26 @@ const GRANT_PROGRAMS = [
 
 type SortKey = "applicantName" | "requestedAmount" | "createdAt" | "eligibilityScore";
 
+function SortIcon({
+  column,
+  sortKey,
+  sortDirection,
+}: {
+  column: SortKey;
+  sortKey: SortKey;
+  sortDirection: "asc" | "desc";
+}) {
+  if (sortKey !== column) {
+    return <ChevronDown className="h-3 w-3 inline ml-1 opacity-30" />;
+  }
+
+  return sortDirection === "asc" ? (
+    <ChevronUp className="h-3 w-3 inline ml-1" />
+  ) : (
+    <ChevronDown className="h-3 w-3 inline ml-1" />
+  );
+}
+
 export default function ApplicationsPage() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,11 +99,6 @@ export default function ApplicationsPage() {
     if (valA > valB) return sortDir === "asc" ? 1 : -1;
     return 0;
   });
-
-  const SortIcon = ({ col }: { col: SortKey }) =>
-    sortKey === col ? (
-      sortDir === "asc" ? <ChevronUp className="h-3 w-3 inline ml-1" /> : <ChevronDown className="h-3 w-3 inline ml-1" />
-    ) : <ChevronDown className="h-3 w-3 inline ml-1 opacity-30" />;
 
   return (
     <div className="animate-fade-in">
@@ -187,13 +202,13 @@ export default function ApplicationsPage() {
                   <thead>
                     <tr className="border-b border-slate-100 bg-slate-50/50">
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide cursor-pointer select-none" onClick={() => handleSort("applicantName")}>
-                        Applicant <SortIcon col="applicantName" />
+                        Applicant <SortIcon column="applicantName" sortKey={sortKey} sortDirection={sortDir} />
                       </th>
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide hidden md:table-cell">
                         Program
                       </th>
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide hidden lg:table-cell cursor-pointer select-none" onClick={() => handleSort("requestedAmount")}>
-                        Amount <SortIcon col="requestedAmount" />
+                        Amount <SortIcon column="requestedAmount" sortKey={sortKey} sortDirection={sortDir} />
                       </th>
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide">
                         Status
@@ -202,13 +217,13 @@ export default function ApplicationsPage() {
                         Risk
                       </th>
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide hidden lg:table-cell cursor-pointer select-none" onClick={() => handleSort("eligibilityScore")}>
-                        Eligibility <SortIcon col="eligibilityScore" />
+                        Eligibility <SortIcon column="eligibilityScore" sortKey={sortKey} sortDirection={sortDir} />
                       </th>
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide hidden xl:table-cell">
                         Reviewer
                       </th>
                       <th className="text-left px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wide hidden xl:table-cell cursor-pointer select-none" onClick={() => handleSort("createdAt")}>
-                        Submitted <SortIcon col="createdAt" />
+                        Submitted <SortIcon column="createdAt" sortKey={sortKey} sortDirection={sortDir} />
                       </th>
                       <th className="px-6 py-3"></th>
                     </tr>

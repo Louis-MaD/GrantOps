@@ -256,7 +256,7 @@ export default function UploadPage() {
                     { icon: AlertCircle, text: "Missing documents are flagged automatically" },
                     { icon: CheckCircle2, text: "Eligibility and risk scores are computed" },
                     { icon: FileText, text: "Executive summary is generated for reviewers" },
-                  ].map(({ icon: Icon, text }, i) => (
+                  ].map(({ text }, i) => (
                     <div key={i} className="flex items-start gap-2.5">
                       <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 mt-0.5">
                         <span className="text-[10px] font-bold text-indigo-600">{i + 1}</span>

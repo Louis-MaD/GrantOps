@@ -41,27 +41,6 @@ This project is built to production-style quality — polished SaaS UI, working 
 
 ---
 
-## Screenshots
-
-> Screenshots taken after running `npm run dev` with seeded data.
-
-### Dashboard
-![Dashboard](docs/screenshots/dashboard.png)
-
-### Applications Table
-![Applications](docs/screenshots/applications.png)
-
-### Application Detail
-![Detail](docs/screenshots/detail.png)
-
-### Reviewer Queue (Kanban)
-![Queue](docs/screenshots/queue.png)
-
-### Audit Logs Timeline
-![Audit Logs](docs/screenshots/audit-logs.png)
-
----
-
 ## Architecture Overview
 
 ```
